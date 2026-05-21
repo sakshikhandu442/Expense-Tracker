@@ -1261,3 +1261,28 @@ canvas {
     border-bottom: 0;
   }
 }
+#reset-filters {
+  height: 48px;
+  padding: 0 22px;
+  border: none;
+  border-radius: 12px;
+  background: #e8f0ff;
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  align-self: end;
+  transition: 0.3s ease;
+  margin-top: 24px;
+}
+
+#reset-filters:hover {
+  background: #d7e5ff;
+  transform: translateY(-1px);
+}
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  align-items: end;
+}
