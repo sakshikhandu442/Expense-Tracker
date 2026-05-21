@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logout - Expense Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav-shell" aria-label="Primary navigation">
+      <a class="brand" href="index.html">Expense Tracker</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html">Login</a>
+        <a href="graph.html">Graph</a>
+        <a class="active" href="logout.html">Logout</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="app-shell logout-shell">
+    <section class="logout-panel" id="logout-page" aria-labelledby="logout-title">
+      <p class="eyebrow">Session closed</p>
+      <h1 id="logout-title">You have been logged out.</h1>
+      <p class="hero-copy">Your expense records are still saved on this device, so the tracker and graph will keep showing them.</p>
+
+      <div class="logout-summary" aria-label="Saved expense records">
+        <article>
+          <span>Saved records</span>
+          <strong id="logout-record-count">0</strong>
+        </article>
+        <article>
+          <span>Saved total</span>
+          <strong id="logout-saved-total">$0.00</strong>
+        </article>
+      </div>
+
+      <div class="logout-actions">
+        <a class="primary-link" href="index.html">Back to Tracker</a>
+        <a class="text-link" href="login.html">Login Again</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>&copy; 2026 Expense Tracker App</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

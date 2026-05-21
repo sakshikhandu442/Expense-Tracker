@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav-shell" aria-label="Primary navigation">
+      <a class="brand" href="index.html">Expense Tracker</a>
+      <div class="nav-links">
+        <a class="active" href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html">Login</a>
+        <a href="graph.html">Graph</a>
+        <a href="logout.html">Logout</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="app-shell">
+    <section class="hero-panel" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">Personal spending dashboard</p>
+        <h1 id="page-title">A cleaner way to watch every rupee.</h1>
+        <p class="hero-copy">Log purchases, scan recent records, and see your spending story at a glance.</p>
+      </div>
+      <div class="hero-stack" aria-live="polite">
+        <div class="hero-stat">
+          <span>Total spent</span>
+          <strong id="total-spent">$0.00</strong>
+        </div>
+        <a class="hero-link" href="graph.html">Open Graph</a>
+      </div>
+    </section>
+
+    <section class="summary-grid" aria-label="Expense summary">
+      <article class="summary-card" data-accent="teal">
+        <span>Records</span>
+        <strong id="expense-count">0</strong>
+      </article>
+      <article class="summary-card" data-accent="blue">
+        <span>Top category</span>
+        <strong id="top-category">None</strong>
+      </article>
+      <article class="summary-card" data-accent="amber">
+        <span>Today</span>
+        <strong id="today-total">$0.00</strong>
+      </article>
+      <article class="summary-card" data-accent="rose">
+        <span>This month</span>
+        <strong id="month-total">$0.00</strong>
+      </article>
+    </section>
+
+    <section class="content-grid">
+      <form class="expense-form" id="expense-form">
+        <div class="section-heading">
+          <p class="eyebrow">Quick entry</p>
+          <h2 id="expense-form-title">Add Expense</h2>
+        </div>
+
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" placeholder="Groceries, bus ticket, electricity bill" autocomplete="off" required>
+
+        <label for="amount">Amount</label>
+        <input type="text" id="amount" name="amount" placeholder="25.99" inputmode="decimal" required>
+
+        <label for="category">Category</label>
+        <select id="category" name="category" required>
+          <option value="">Select category</option>
+          <option value="Food">Food</option>
+          <option value="Transport">Transport</option>
+          <option value="Bills">Bills</option>
+          <option value="Shopping">Shopping</option>
+          <option value="Entertainment">Entertainment</option>
+          <option value="Health">Health</option>
+          <option value="Others">Others</option>
+        </select>
+
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="currency">Currency</label>
+        <select id="currency" name="currency">
+          <option value="INR">Indian Rupee (₹)</option>
+          <option value="USD">US Dollar ($)</option>
+          <option value="EUR">Euro (€)</option>
+          <option value="GBP">British Pound (£)</option>
+        </select>
+
+        <div class="button-row">
+          <button class="primary-btn" id="submit-expense" type="submit">Add Expense</button>
+          <button class="danger-btn" id="clear-all" type="button">Clear All</button>
+        </div>
+        <button class="ghost-btn" id="cancel-edit" type="button" hidden>Cancel Edit</button>
+      </form>
+
+      <section class="records-panel" aria-labelledby="records-title">
+        <div class="section-heading records-heading">
+          <div>
+            <p class="eyebrow">Saved records</p>
+            <h2 id="records-title">Expense Records</h2>
+          </div>
+          <a class="text-link" href="graph.html">View Graph</a>
+        </div>
+
+        <div class="filter-grid" aria-label="Filter expense records">
+          <label for="filter-search">
+            Search
+            <input type="search" id="filter-search" placeholder="Search description">
+          </label>
+          <label for="filter-category">
+            Category
+            <select id="filter-category">
+              <option value="">All categories</option>
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Bills">Bills</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Health">Health</option>
+              <option value="Others">Others</option>
+            </select>
+          </label>
+          <label for="filter-from">
+            From
+            <input type="date" id="filter-from">
+          </label>
+          <label for="filter-to">
+            To
+            <input type="date" id="filter-to">
+          </label>
+          <button class="ghost-btn" id="reset-filters" type="button">Reset</button>
+        </div>
+
+        <div class="empty-state" id="empty-state">
+          <strong id="empty-title">No expenses yet</strong>
+          <p id="empty-copy">Add your first expense to see records and update the graph.</p>
+        </div>
+
+        <div class="records-table-wrap" id="records-table-wrap" hidden>
+          <table class="records-table">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="expenses-list"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>&copy; 2026 Expense Tracker App</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

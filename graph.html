@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Graph</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav-shell" aria-label="Primary navigation">
+      <a class="brand" href="index.html">Expense Tracker</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html">Login</a>
+        <a class="active" href="graph.html">Graph</a>
+        <a href="logout.html">Logout</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="app-shell graph-shell">
+    <section class="hero-panel graph-hero" aria-labelledby="graph-title">
+      <div>
+        <p class="eyebrow">Visual breakdown</p>
+        <h1 id="graph-title">See where your money is going.</h1>
+        <p class="hero-copy">Every category updates from the records saved on your tracker page.</p>
+      </div>
+      <a class="primary-link" href="index.html">Add Expense</a>
+    </section>
+
+    <section class="graph-grid">
+      <article class="chart-panel">
+        <div class="section-heading">
+          <p class="eyebrow">Category split</p>
+          <h2>Expense Summary</h2>
+        </div>
+        <div class="chart-frame">
+          <canvas id="expense-chart" width="460" height="460" aria-label="Expense chart by category"></canvas>
+        </div>
+        <p class="chart-empty" id="chart-empty" hidden>No expense data yet. Add a record to draw the graph.</p>
+      </article>
+
+      <aside class="breakdown-panel" aria-labelledby="breakdown-title">
+        <div class="section-heading">
+          <p class="eyebrow">Totals</p>
+          <h2 id="breakdown-title">Category Breakdown</h2>
+        </div>
+        <div class="breakdown-total">
+          <span>Total spent</span>
+          <strong id="graph-total">$0.00</strong>
+        </div>
+        <ul class="breakdown-list" id="category-breakdown"></ul>
+      </aside>
+    </section>
+
+    <section class="insight-grid" aria-label="Monthly spending insights">
+      <article class="insight-card">
+        <span>This month</span>
+        <strong id="graph-month-total">$0.00</strong>
+      </article>
+      <article class="insight-card">
+        <span>Average record</span>
+        <strong id="graph-average">$0.00</strong>
+      </article>
+      <article class="insight-card">
+        <span>Largest expense</span>
+        <strong id="graph-largest">$0.00</strong>
+      </article>
+    </section>
+
+    <section class="monthly-panel" aria-labelledby="monthly-title">
+      <div class="section-heading">
+        <p class="eyebrow">Monthly trend</p>
+        <h2 id="monthly-title">Spending by Month</h2>
+      </div>
+      <div class="monthly-bars" id="monthly-bars"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>&copy; 2026 Expense Tracker App</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

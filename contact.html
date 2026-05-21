@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - Expense Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav-shell" aria-label="Primary navigation">
+      <a class="brand" href="index.html">Expense Tracker</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a class="active" href="contact.html">Contact</a>
+        <a href="login.html">Login</a>
+        <a href="graph.html">Graph</a>
+        <a href="logout.html">Logout</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="app-shell">
+    <section class="hero-panel" aria-labelledby="contact-title">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h1 id="contact-title">Share feedback about the tracker.</h1>
+        <p class="hero-copy">Use this page as a neat project contact screen for questions, ideas, or presentation notes.</p>
+      </div>
+      <a class="primary-link" href="index.html">Back to Tracker</a>
+    </section>
+
+    <section class="contact-layout">
+      <form class="contact-form" id="contact-form">
+        <div class="section-heading">
+          <p class="eyebrow">Message</p>
+          <h2>Get in Touch</h2>
+        </div>
+
+        <label for="contact-name">Full Name</label>
+        <input type="text" id="contact-name" placeholder="Your name" required>
+
+        <label for="contact-email">Email Address</label>
+        <input type="email" id="contact-email" placeholder="you@example.com" required>
+
+        <label for="contact-subject">Subject</label>
+        <input type="text" id="contact-subject" placeholder="Project feedback" required>
+
+        <label for="contact-message">Message</label>
+        <textarea id="contact-message" placeholder="Write your message here" required></textarea>
+
+        <p class="auth-message" id="contact-status" aria-live="polite"></p>
+        <button class="primary-btn" type="submit">Send Message</button>
+      </form>
+
+      <aside class="info-panel">
+        <p class="eyebrow">Project note</p>
+        <h2>Designed for simple demos</h2>
+        <p>The contact form confirms the message on screen for this local project. It does not send data to an email server.</p>
+        <div class="mini-list">
+          <span>Local browser storage</span>
+          <span>Responsive layout</span>
+          <span>Protected tracker pages</span>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>&copy; 2026 Expense Tracker App</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
