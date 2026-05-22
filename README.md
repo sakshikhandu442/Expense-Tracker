@@ -140,5 +140,5 @@ GitHub:
 This project is open-source and available under the MIT License.
 
 ```
-https://expense-tracker-u7k8.onrender.com
+
 ```
