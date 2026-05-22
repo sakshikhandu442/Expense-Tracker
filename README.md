@@ -128,7 +128,7 @@ This project is deployed using Render.
 
 ## 👩‍💻 Author
 
-**Sakshi K**
+**Sakshi Khandu**
 
 GitHub:
 [https://github.com/sakshikhandu442](https://github.com/sakshikhandu442)
@@ -140,4 +140,5 @@ GitHub:
 This project is open-source and available under the MIT License.
 
 ```
+https://expense-tracker-u7k8.onrender.com
 ```
