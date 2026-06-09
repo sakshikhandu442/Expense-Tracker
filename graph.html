@@ -1,89 +1,379 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expense Graph</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Analytics Dashboard - Expense Tracker Pro</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:linear-gradient(
+135deg,
+#0f172a,
+#1e1b4b,
+#312e81,
+#2563eb
+);
+color:white;
+min-height:100vh;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(20px);
+}
+
+.logo{
+font-size:28px;
+font-weight:700;
+color:#38bdf8;
+}
+
+.nav-links{
+display:flex;
+list-style:none;
+gap:25px;
+}
+
+.nav-links a{
+text-decoration:none;
+color:white;
+font-weight:500;
+}
+
+.nav-links a:hover{
+color:#38bdf8;
+}
+
+/* HERO */
+
+.hero{
+text-align:center;
+padding:70px 8%;
+}
+
+.hero h1{
+font-size:55px;
+margin-bottom:15px;
+}
+
+.hero span{
+color:#38bdf8;
+}
+
+.hero p{
+font-size:18px;
+max-width:700px;
+margin:auto;
+}
+
+/* STATS */
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+padding:0 8%;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+padding:25px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 8px 30px rgba(0,0,0,.3);
+}
+
+.card i{
+font-size:35px;
+color:#38bdf8;
+margin-bottom:15px;
+}
+
+.card h2{
+margin-top:10px;
+}
+
+/* CHARTS */
+
+.chart-container{
+padding:50px 8%;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:30px;
+}
+
+.chart-box{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+padding:25px;
+border-radius:20px;
+box-shadow:0 8px 30px rgba(0,0,0,.3);
+}
+
+.chart-box h2{
+text-align:center;
+margin-bottom:20px;
+}
+
+.full-width{
+grid-column:1/-1;
+}
+
+/* BUTTON */
+
+.download{
+display:flex;
+justify-content:center;
+margin:20px 0 50px;
+}
+
+.btn{
+padding:15px 30px;
+background:#38bdf8;
+border:none;
+border-radius:12px;
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:.3s;
+}
+
+.btn:hover{
+background:#0ea5e9;
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+padding:20px;
+background:rgba(255,255,255,.08);
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+.navbar{
+flex-direction:column;
+gap:15px;
+}
+
+.nav-links{
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.hero h1{
+font-size:40px;
+}
+
+.chart-container{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
 </head>
+
 <body>
-  <header class="site-header">
-    <nav class="nav-shell" aria-label="Primary navigation">
-      <a class="brand" href="index.html">Expense Tracker</a>
-      <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="login.html">Login</a>
-        <a class="active" href="graph.html">Graph</a>
-        <a href="logout.html">Logout</a>
-      </div>
-    </nav>
-  </header>
 
-  <main class="app-shell graph-shell">
-    <section class="hero-panel graph-hero" aria-labelledby="graph-title">
-      <div>
-        <p class="eyebrow">Visual breakdown</p>
-        <h1 id="graph-title">See where your money is going.</h1>
-        <p class="hero-copy">Every category updates from the records saved on your tracker page.</p>
-      </div>
-      <a class="primary-link" href="index.html">Add Expense</a>
-    </section>
+<nav class="navbar">
 
-    <section class="graph-grid">
-      <article class="chart-panel">
-        <div class="section-heading">
-          <p class="eyebrow">Category split</p>
-          <h2>Expense Summary</h2>
-        </div>
-        <div class="chart-frame">
-          <canvas id="expense-chart" width="460" height="460" aria-label="Expense chart by category"></canvas>
-        </div>
-        <p class="chart-empty" id="chart-empty" hidden>No expense data yet. Add a record to draw the graph.</p>
-      </article>
+<div class="logo">
+💰 Expense Tracker Pro
+</div>
 
-      <aside class="breakdown-panel" aria-labelledby="breakdown-title">
-        <div class="section-heading">
-          <p class="eyebrow">Totals</p>
-          <h2 id="breakdown-title">Category Breakdown</h2>
-        </div>
-        <div class="breakdown-total">
-          <span>Total spent</span>
-          <strong id="graph-total">$0.00</strong>
-        </div>
-        <ul class="breakdown-list" id="category-breakdown"></ul>
-      </aside>
-    </section>
+<ul class="nav-links">
+<li><a href="index.html">Dashboard</a></li>
+<li><a href="graph.html">Analytics</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="contact.html">Contact</a></li>
+<li><a href="login.html">Login</a></li>
+<li><a href="logout.html">Logout</a></li>
+</ul>
 
-    <section class="insight-grid" aria-label="Monthly spending insights">
-      <article class="insight-card">
-        <span>This month</span>
-        <strong id="graph-month-total">$0.00</strong>
-      </article>
-      <article class="insight-card">
-        <span>Average record</span>
-        <strong id="graph-average">$0.00</strong>
-      </article>
-      <article class="insight-card">
-        <span>Largest expense</span>
-        <strong id="graph-largest">$0.00</strong>
-      </article>
-    </section>
+</nav>
 
-    <section class="monthly-panel" aria-labelledby="monthly-title">
-      <div class="section-heading">
-        <p class="eyebrow">Monthly trend</p>
-        <h2 id="monthly-title">Spending by Month</h2>
-      </div>
-      <div class="monthly-bars" id="monthly-bars"></div>
-    </section>
-  </main>
+<section class="hero">
 
-  <footer class="site-footer">
-    <span>&copy; 2026 Expense Tracker App</span>
-  </footer>
+<h1>Expense <span>Analytics</span></h1>
 
-  <script src="script.js"></script>
+<p>
+Visualize your spending habits and financial trends
+through interactive charts and reports.
+</p>
+
+</section>
+
+<section class="stats">
+
+<div class="card">
+<i class="fas fa-wallet"></i>
+<h3>Total Expenses</h3>
+<h2>₹35,000</h2>
+</div>
+
+<div class="card">
+<i class="fas fa-chart-line"></i>
+<h3>Monthly Budget</h3>
+<h2>₹50,000</h2>
+</div>
+
+<div class="card">
+<i class="fas fa-piggy-bank"></i>
+<h3>Total Savings</h3>
+<h2>₹15,000</h2>
+</div>
+
+<div class="card">
+<i class="fas fa-file-invoice-dollar"></i>
+<h3>Transactions</h3>
+<h2>120</h2>
+</div>
+
+</section>
+
+<section class="chart-container">
+
+<div class="chart-box">
+<h2>Category Distribution</h2>
+<canvas id="pieChart"></canvas>
+</div>
+
+<div class="chart-box">
+<h2>Monthly Expenses</h2>
+<canvas id="barChart"></canvas>
+</div>
+
+<div class="chart-box full-width">
+<h2>Expense Trend</h2>
+<canvas id="lineChart"></canvas>
+</div>
+
+</section>
+
+<div class="download">
+<button class="btn" onclick="window.print()">
+<i class="fas fa-download"></i>
+ Download Report
+</button>
+</div>
+
+<footer>
+© 2026 Expense Tracker Pro | Analytics Dashboard
+</footer>
+
+<script>
+
+/* PIE CHART */
+
+new Chart(
+document.getElementById('pieChart'),
+{
+type:'pie',
+data:{
+labels:[
+'Food',
+'Transport',
+'Shopping',
+'Bills',
+'Entertainment'
+],
+datasets:[{
+data:[25,15,20,25,15]
+}]
+}
+}
+);
+
+/* BAR CHART */
+
+new Chart(
+document.getElementById('barChart'),
+{
+type:'bar',
+data:{
+labels:[
+'Jan',
+'Feb',
+'Mar',
+'Apr',
+'May',
+'Jun'
+],
+datasets:[{
+label:'Expenses',
+data:[
+12000,
+15000,
+18000,
+14000,
+22000,
+20000
+]
+}]
+}
+}
+);
+
+/* LINE CHART */
+
+new Chart(
+document.getElementById('lineChart'),
+{
+type:'line',
+data:{
+labels:[
+'Week 1',
+'Week 2',
+'Week 3',
+'Week 4'
+],
+datasets:[{
+label:'Expense Trend',
+data:[
+5000,
+7000,
+6000,
+9000
+],
+fill:false
+}]
+}
+}
+);
+
+</script>
+
 </body>
 </html>
+```
+

@@ -1,35 +1,338 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Expense Tracker</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login - Expense Tracker Pro</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:linear-gradient(
+135deg,
+#0f172a,
+#1e1b4b,
+#312e81,
+#2563eb
+);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.login-container{
+width:100%;
+max-width:1100px;
+display:grid;
+grid-template-columns:1fr 1fr;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(20px);
+border-radius:25px;
+overflow:hidden;
+box-shadow:0 8px 30px rgba(0,0,0,.4);
+}
+
+.left-panel{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:50px;
+background:rgba(255,255,255,.05);
+}
+
+.left-panel img{
+width:320px;
+max-width:100%;
+margin-bottom:20px;
+}
+
+.left-panel h1{
+font-size:40px;
+color:white;
+text-align:center;
+}
+
+.left-panel p{
+color:#cbd5e1;
+margin-top:15px;
+text-align:center;
+}
+
+.right-panel{
+padding:50px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+.right-panel h2{
+font-size:35px;
+color:white;
+margin-bottom:10px;
+}
+
+.right-panel p{
+color:#cbd5e1;
+margin-bottom:25px;
+}
+
+.input-group{
+position:relative;
+margin-bottom:20px;
+}
+
+.input-group input{
+width:100%;
+padding:15px 50px 15px 15px;
+border:none;
+outline:none;
+border-radius:12px;
+font-size:15px;
+}
+
+.input-group i{
+position:absolute;
+right:15px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+color:#64748b;
+}
+
+.options{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+color:white;
+font-size:14px;
+}
+
+.options a{
+color:#38bdf8;
+text-decoration:none;
+}
+
+.login-btn{
+padding:15px;
+border:none;
+border-radius:12px;
+background:#38bdf8;
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:.3s;
+width:100%;
+}
+
+.login-btn:hover{
+background:#0ea5e9;
+}
+
+.divider{
+text-align:center;
+margin:25px 0;
+color:white;
+}
+
+.social-login{
+display:flex;
+gap:15px;
+}
+
+.social-btn{
+flex:1;
+padding:12px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-size:15px;
+font-weight:500;
+}
+
+.google{
+background:white;
+}
+
+.github{
+background:#111827;
+color:white;
+}
+
+.register{
+text-align:center;
+margin-top:25px;
+color:white;
+}
+
+.register a{
+color:#38bdf8;
+text-decoration:none;
+font-weight:600;
+}
+
+@media(max-width:900px){
+
+.login-container{
+grid-template-columns:1fr;
+}
+
+.left-panel{
+display:none;
+}
+
+}
+
+</style>
 </head>
-<body class="auth-page">
-  <main class="auth-shell">
-    <section class="auth-card" aria-labelledby="login-title">
-      <a class="auth-brand" href="login.html">Expense Tracker</a>
-      <p class="eyebrow">Welcome back</p>
-      <h1 id="login-title">Login first to open your tracker.</h1>
-      <p class="auth-copy">Your expenses stay saved on this device, even after you logout.</p>
 
-      <form id="login-form" class="auth-form">
-        <label for="login-email">Email Address</label>
-        <input type="email" id="login-email" autocomplete="email" placeholder="you@example.com" required>
+<body>
 
-        <label for="login-password">Password</label>
-        <input type="password" id="login-password" autocomplete="current-password" placeholder="Enter your password" required>
+<div class="login-container">
 
-        <p class="auth-message" id="auth-message" aria-live="polite"></p>
+<div class="left-panel">
 
-        <button class="primary-btn" type="submit">Login</button>
-      </form>
+<img src="https://cdn-icons-png.flaticon.com/512/2489/2489756.png">
 
-      <p class="auth-switch">Do not have an account? <a href="register.html">Create one</a></p>
-    </section>
-  </main>
+<h1>Expense Tracker Pro</h1>
 
-  <script src="script.js"></script>
+<p>
+Manage your expenses, budgets and savings all in one place.
+</p>
+
+</div>
+
+<div class="right-panel">
+
+<h2>Welcome Back 👋</h2>
+
+<p>Sign in to continue to your dashboard.</p>
+
+<form id="loginForm">
+
+<div class="input-group">
+
+<input
+type="email"
+id="loginEmail"
+placeholder="Email Address"
+required>
+
+<i class="fas fa-envelope"></i>
+
+</div>
+
+<div class="input-group">
+
+<input
+type="password"
+id="password"
+placeholder="Password"
+required>
+
+<i class="fas fa-eye"
+onclick="togglePassword()"></i>
+
+</div>
+
+<div class="options">
+
+<label>
+<input type="checkbox">
+Remember Me
+</label>
+
+<a href="#">
+Forgot Password?
+</a>
+
+</div>
+
+<button
+type="submit"
+class="login-btn">
+Login
+</button>
+
+</form>
+
+<div class="divider">
+──────── OR ────────
+</div>
+
+<div class="social-login">
+
+<button class="social-btn google">
+<i class="fab fa-google"></i>
+Google
+</button>
+
+<button class="social-btn github">
+<i class="fab fa-github"></i>
+GitHub
+</button>
+
+</div>
+
+<div class="register">
+
+Don't have an account?
+
+<a href="register.html">
+Register Now
+</a>
+
+</div>
+
+</div>
+
+</div>
+<script>
+
+function togglePassword(){
+
+    const password =
+    document.getElementById("password");
+
+    if(password.type==="password"){
+        password.type="text";
+    }else{
+        password.type="password";
+    }
+
+}
+
+document.getElementById("loginForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    localStorage.setItem("isLoggedIn","true");
+
+    alert("Login Successful");
+
+    window.location.href="index.html";
+
+});
+
+</script>
+
+
 </body>
 </html>

@@ -2,9 +2,10 @@ const STORAGE_KEY = "expenseTracker.records";
 const USERS_KEY = "expenseTracker.users";
 const AUTH_KEY = "expenseTracker.session";
 const CURRENCY_KEY = "expenseTracker.currency";
+const INCOME_KEY = "expenseTracker.monthlyIncome";
 
 const PUBLIC_PAGES = ["login.html", "register.html", "logout.html"];
-const PROTECTED_PAGES = ["index.html", "graph.html", "about.html", "contact.html"];
+const PROTECTED_PAGES = ["index.html", "dashboard.html", "graph.html", "about.html", "contact.html"];
 
 const categoryColors = {
   Food: "#14b8a6",
@@ -116,6 +117,14 @@ function getCurrency() {
 
 function setCurrency(currency) {
   localStorage.setItem(CURRENCY_KEY, currency);
+}
+
+function getMonthlyIncome() {
+  return Number(localStorage.getItem(INCOME_KEY)) || 0;
+}
+
+function setMonthlyIncome(value) {
+  localStorage.setItem(INCOME_KEY, String(value));
 }
 
 function formatCurrency(value) {
@@ -470,6 +479,32 @@ function initGraphPage() {
   renderGraph();
 }
 
+function initDashboardPage() {
+  const dashboard = document.getElementById("monthly-expense-chart");
+
+  if (!dashboard) {
+    return;
+  }
+
+  const incomeInput = document.getElementById("monthly-income");
+  const saveIncome = document.getElementById("save-income");
+
+  incomeInput.value = getMonthlyIncome() || "";
+  saveIncome.addEventListener("click", () => {
+    const income = Number(incomeInput.value);
+
+    if (!Number.isFinite(income) || income < 0) {
+      alert("Please enter a valid monthly income.");
+      return;
+    }
+
+    setMonthlyIncome(income);
+    renderDashboard();
+  });
+
+  renderDashboard();
+}
+
 function initLogoutPage() {
   const logoutPage = document.getElementById("logout-page");
 
@@ -585,6 +620,263 @@ function renderMonthlyBars(expenses) {
   });
 }
 
+function renderDashboard() {
+  const expenses = readExpenses();
+  const monthlyIncome = getMonthlyIncome();
+  const months = getRecentMonths(6);
+  const expenseByMonth = groupByMonth(expenses);
+  const expenseValues = months.map((month) => expenseByMonth[month] || 0);
+  const incomeValues = months.map(() => monthlyIncome);
+  const savingsValues = months.map((month) => monthlyIncome - (expenseByMonth[month] || 0));
+  const thisMonthExpense = expenseByMonth[getMonthKey()] || 0;
+
+  document.getElementById("monthly-income").value = monthlyIncome || "";
+  document.getElementById("dashboard-income").textContent = formatCurrency(monthlyIncome);
+  document.getElementById("dashboard-expense").textContent = formatCurrency(thisMonthExpense);
+  document.getElementById("dashboard-savings").textContent = formatCurrency(monthlyIncome - thisMonthExpense);
+
+  drawBarChart(
+    document.getElementById("monthly-expense-chart"),
+    months.map(formatShortMonth),
+    expenseValues,
+    "#2563eb"
+  );
+  drawPieChart(
+    document.getElementById("category-analysis-chart"),
+    Object.entries(groupByCategory(expenses)).sort((a, b) => b[1] - a[1])
+  );
+  drawLineChart(
+    document.getElementById("income-expense-chart"),
+    months.map(formatShortMonth),
+    [
+      { label: "Income", values: incomeValues, color: "#0d9488" },
+      { label: "Expense", values: expenseValues, color: "#e11d48" }
+    ]
+  );
+  drawLineChart(
+    document.getElementById("savings-trend-chart"),
+    months.map(formatShortMonth),
+    [
+      { label: "Savings", values: savingsValues, color: "#d97706" }
+    ],
+    true
+  );
+}
+
+function getRecentMonths(count) {
+  const months = [];
+  const current = new Date();
+
+  for (let index = count - 1; index >= 0; index -= 1) {
+    const date = new Date(current.getFullYear(), current.getMonth() - index, 1);
+    months.push(`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`);
+  }
+
+  return months;
+}
+
+function formatShortMonth(monthKey) {
+  const [year, month] = monthKey.split("-");
+  return new Intl.DateTimeFormat("en-IN", {
+    month: "short"
+  }).format(new Date(Number(year), Number(month) - 1, 1));
+}
+
+function drawBarChart(canvas, labels, values, color) {
+  const ctx = canvas.getContext("2d");
+  const width = canvas.width;
+  const height = canvas.height;
+  const padding = 44;
+  const chartWidth = width - padding * 2;
+  const chartHeight = height - padding * 2;
+  const max = Math.max(...values, 1);
+
+  clearCanvas(ctx, width, height);
+  drawChartTitle(ctx, "Monthly expense total");
+  drawAxis(ctx, padding, height - padding, width - padding, padding);
+
+  values.forEach((value, index) => {
+    const barWidth = chartWidth / values.length - 18;
+    const x = padding + index * (chartWidth / values.length) + 9;
+    const barHeight = (value / max) * (chartHeight - 20);
+    const y = height - padding - barHeight;
+
+    ctx.fillStyle = color;
+    roundRect(ctx, x, y, barWidth, barHeight, 8);
+    ctx.fill();
+
+    ctx.fillStyle = "#64748b";
+    ctx.font = "700 13px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(labels[index], x + barWidth / 2, height - 18);
+  });
+
+  if (!values.some(Boolean)) {
+    drawNoData(ctx, width, height, "No monthly expenses yet");
+  }
+}
+
+function drawPieChart(canvas, entries) {
+  const ctx = canvas.getContext("2d");
+  const width = canvas.width;
+  const height = canvas.height;
+  const total = entries.reduce((sum, [, value]) => sum + value, 0);
+  const centerX = width * 0.35;
+  const centerY = height * 0.55;
+  const radius = 88;
+  let startAngle = -Math.PI / 2;
+
+  clearCanvas(ctx, width, height);
+  drawChartTitle(ctx, "Category share");
+
+  if (!total) {
+    drawNoData(ctx, width, height, "No category data yet");
+    return;
+  }
+
+  entries.forEach(([category, value]) => {
+    const angle = (value / total) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.fillStyle = categoryColors[category] || categoryColors.Others;
+    ctx.arc(centerX, centerY, radius, startAngle, startAngle + angle);
+    ctx.closePath();
+    ctx.fill();
+    startAngle += angle;
+  });
+
+  entries.slice(0, 6).forEach(([category, value], index) => {
+    const x = width * 0.62;
+    const y = 84 + index * 32;
+    const percent = Math.round((value / total) * 100);
+
+    ctx.fillStyle = categoryColors[category] || categoryColors.Others;
+    roundRect(ctx, x, y - 12, 14, 14, 4);
+    ctx.fill();
+    ctx.fillStyle = "#0f172a";
+    ctx.font = "700 14px Arial";
+    ctx.textAlign = "left";
+    ctx.fillText(`${category} ${percent}%`, x + 24, y);
+  });
+}
+
+function drawLineChart(canvas, labels, series, fillArea = false) {
+  const ctx = canvas.getContext("2d");
+  const width = canvas.width;
+  const height = canvas.height;
+  const padding = 46;
+  const chartWidth = width - padding * 2;
+  const chartHeight = height - padding * 2;
+  const allValues = series.flatMap((item) => item.values);
+  const max = Math.max(...allValues, 1);
+  const min = Math.min(...allValues, 0);
+  const range = max - min || 1;
+
+  clearCanvas(ctx, width, height);
+  drawChartTitle(ctx, fillArea ? "Savings trend" : "Income compared with expense");
+  drawAxis(ctx, padding, height - padding, width - padding, padding);
+
+  labels.forEach((label, index) => {
+    const x = padding + index * (chartWidth / Math.max(labels.length - 1, 1));
+    ctx.fillStyle = "#64748b";
+    ctx.font = "700 12px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(label, x, height - 18);
+  });
+
+  series.forEach((item, seriesIndex) => {
+    const points = item.values.map((value, index) => ({
+      x: padding + index * (chartWidth / Math.max(item.values.length - 1, 1)),
+      y: height - padding - ((value - min) / range) * chartHeight
+    }));
+
+    if (fillArea && points.length) {
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, height - padding);
+      points.forEach((point) => ctx.lineTo(point.x, point.y));
+      ctx.lineTo(points[points.length - 1].x, height - padding);
+      ctx.closePath();
+      ctx.fillStyle = "rgba(217, 119, 6, 0.16)";
+      ctx.fill();
+    }
+
+    ctx.beginPath();
+    points.forEach((point, index) => {
+      if (index === 0) {
+        ctx.moveTo(point.x, point.y);
+      } else {
+        ctx.lineTo(point.x, point.y);
+      }
+    });
+    ctx.strokeStyle = item.color;
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    points.forEach((point) => {
+      ctx.beginPath();
+      ctx.fillStyle = "#ffffff";
+      ctx.arc(point.x, point.y, 6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = item.color;
+      ctx.lineWidth = 3;
+      ctx.stroke();
+    });
+
+    drawLegendItem(ctx, item.label, item.color, width - 160, 36 + seriesIndex * 24);
+  });
+}
+
+function clearCanvas(ctx, width, height) {
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, width, height);
+}
+
+function drawChartTitle(ctx, title) {
+  ctx.fillStyle = "#0f172a";
+  ctx.font = "800 18px Arial";
+  ctx.textAlign = "left";
+  ctx.fillText(title, 24, 34);
+}
+
+function drawAxis(ctx, left, bottom, right, top) {
+  ctx.strokeStyle = "#dbe5ef";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(left, top);
+  ctx.lineTo(left, bottom);
+  ctx.lineTo(right, bottom);
+  ctx.stroke();
+}
+
+function drawLegendItem(ctx, label, color, x, y) {
+  ctx.fillStyle = color;
+  roundRect(ctx, x, y - 12, 14, 14, 4);
+  ctx.fill();
+  ctx.fillStyle = "#334155";
+  ctx.font = "700 13px Arial";
+  ctx.textAlign = "left";
+  ctx.fillText(label, x + 22, y);
+}
+
+function drawNoData(ctx, width, height, message) {
+  ctx.fillStyle = "#64748b";
+  ctx.font = "800 18px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText(message, width / 2, height / 2);
+}
+
+function roundRect(ctx, x, y, width, height, radius) {
+  const safeRadius = Math.min(radius, Math.abs(width) / 2, Math.abs(height) / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + safeRadius, y);
+  ctx.arcTo(x + width, y, x + width, y + height, safeRadius);
+  ctx.arcTo(x + width, y + height, x, y + height, safeRadius);
+  ctx.arcTo(x, y + height, x, y, safeRadius);
+  ctx.arcTo(x, y, x + width, y, safeRadius);
+  ctx.closePath();
+}
+
 function formatMonth(monthKey) {
   const [year, month] = monthKey.split("-");
   return new Intl.DateTimeFormat("en-IN", {
@@ -672,6 +964,7 @@ if (initAuthGuard()) {
   initLoginPage();
   initRegisterPage();
   initTrackerPage();
+  initDashboardPage();
   initGraphPage();
   initLogoutPage();
   initContactPage();

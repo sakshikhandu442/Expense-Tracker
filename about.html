@@ -1,74 +1,428 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About - Expense Tracker</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>About - Expense Tracker Pro</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:linear-gradient(
+135deg,
+#0f172a,
+#1e1b4b,
+#312e81,
+#2563eb
+);
+color:white;
+min-height:100vh;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+}
+
+.logo{
+font-size:28px;
+font-weight:700;
+color:#38bdf8;
+}
+
+.nav-links{
+display:flex;
+list-style:none;
+gap:25px;
+}
+
+.nav-links a{
+text-decoration:none;
+color:white;
+font-weight:500;
+transition:.3s;
+}
+
+.nav-links a:hover{
+color:#38bdf8;
+}
+
+/* HERO */
+
+.hero{
+padding:80px 8%;
+display:flex;
+align-items:center;
+justify-content:space-between;
+flex-wrap:wrap;
+gap:40px;
+}
+
+.hero-content{
+max-width:600px;
+}
+
+.hero-content h1{
+font-size:55px;
+margin-bottom:20px;
+}
+
+.hero-content span{
+color:#38bdf8;
+}
+
+.hero-content p{
+font-size:18px;
+line-height:1.8;
+}
+
+.hero-image img{
+width:420px;
+max-width:100%;
+}
+
+/* SECTION */
+
+.section{
+padding:60px 8%;
+}
+
+.section-title{
+text-align:center;
+font-size:42px;
+margin-bottom:50px;
+}
+
+.section-title span{
+color:#38bdf8;
+}
+
+/* CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+padding:30px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 8px 30px rgba(0,0,0,.3);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.card i{
+font-size:50px;
+color:#38bdf8;
+margin-bottom:20px;
+}
+
+.card h3{
+margin-bottom:15px;
+}
+
+/* MISSION */
+
+.mission{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:30px;
+margin-top:40px;
+}
+
+.box{
+background:rgba(255,255,255,.08);
+padding:30px;
+border-radius:20px;
+backdrop-filter:blur(15px);
+}
+
+/* TEAM */
+
+.team{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+margin-top:40px;
+}
+
+.member{
+background:rgba(255,255,255,.08);
+padding:25px;
+border-radius:20px;
+text-align:center;
+}
+
+.member img{
+width:120px;
+height:120px;
+border-radius:50%;
+border:4px solid #38bdf8;
+margin-bottom:15px;
+}
+
+/* STATS */
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+margin-top:40px;
+}
+
+.stat-card{
+background:rgba(255,255,255,.08);
+padding:25px;
+border-radius:20px;
+text-align:center;
+}
+
+.stat-card h1{
+font-size:45px;
+color:#38bdf8;
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+padding:20px;
+margin-top:50px;
+background:rgba(255,255,255,.08);
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+.hero{
+justify-content:center;
+text-align:center;
+}
+
+.hero-content h1{
+font-size:40px;
+}
+
+.mission{
+grid-template-columns:1fr;
+}
+
+.navbar{
+flex-direction:column;
+gap:15px;
+}
+
+.nav-links{
+flex-wrap:wrap;
+justify-content:center;
+}
+
+}
+
+</style>
 </head>
+
 <body>
-  <header class="site-header">
-    <nav class="nav-shell" aria-label="Primary navigation">
-      <a class="brand" href="index.html">Expense Tracker</a>
-      <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a class="active" href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="login.html">Login</a>
-        <a href="graph.html">Graph</a>
-        <a href="logout.html">Logout</a>
-      </div>
-    </nav>
-  </header>
 
-  <main class="app-shell">
-    <section class="hero-panel" aria-labelledby="about-title">
-      <div>
-        <p class="eyebrow">About the project</p>
-        <h1 id="about-title">Built to make everyday spending easier to understand.</h1>
-        <p class="hero-copy">The tracker keeps expense entry quick while turning your saved records into totals, filters, and visual insights.</p>
-      </div>
-      <a class="primary-link" href="index.html">Open Tracker</a>
-    </section>
+<nav class="navbar">
 
-    <section class="page-grid">
-      <article class="info-panel">
-        <p class="eyebrow">What it does</p>
-        <h2>Practical expense control</h2>
-        <p>Record daily spending, edit mistakes, filter older entries, and view category or monthly patterns without needing a database setup.</p>
-      </article>
+<div class="logo">
+💰 Expense Tracker Pro
+</div>
 
-      <article class="info-panel">
-        <p class="eyebrow">Privacy</p>
-        <h2>Saved on this browser</h2>
-        <p>Login details and expenses are stored locally in the browser for this student project. Logout closes the session but keeps records available for the next login.</p>
-      </article>
-    </section>
+<ul class="nav-links">
+<li><a href="index.html">Dashboard</a></li>
+<li><a href="graph.html">Analytics</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="contact.html">Contact</a></li>
+<li><a href="login.html">Login</a></li>
+<li><a href="logout.html">Logout</a></li>
+</ul>
 
-    <section class="feature-list" aria-label="App features">
-      <article>
-        <strong>Login first flow</strong>
-        <span>The tracker opens only after login, with logout available from every main page.</span>
-      </article>
-      <article>
-        <strong>Editable records</strong>
-        <span>Correct expense details without deleting and re-entering the item.</span>
-      </article>
-      <article>
-        <strong>Useful filters</strong>
-        <span>Search by description, category, and date range when records grow.</span>
-      </article>
-      <article>
-        <strong>Visual summaries</strong>
-        <span>Category chart, monthly spending bars, totals, averages, and largest expense.</span>
-      </article>
-    </section>
-  </main>
+</nav>
 
-  <footer class="site-footer">
-    <span>&copy; 2026 Expense Tracker App</span>
-  </footer>
+<section class="hero">
 
-  <script src="script.js"></script>
+<div class="hero-content">
+
+<h1>
+About <span>Expense Tracker Pro</span>
+</h1>
+
+<p>
+Expense Tracker Pro is a smart financial management
+platform designed to help users monitor spending,
+analyze expenses, manage budgets and achieve their
+financial goals through interactive dashboards and
+visual reports.
+</p>
+
+</div>
+
+<div class="hero-image">
+
+<img src="https://cdn-icons-png.flaticon.com/512/3062/3062634.png">
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2 class="section-title">
+Why Choose <span>Our Platform?</span>
+</h2>
+
+<div class="cards">
+
+<div class="card">
+<i class="fas fa-wallet"></i>
+<h3>Expense Tracking</h3>
+<p>
+Track every expense and maintain complete
+financial control.
+</p>
+</div>
+
+<div class="card">
+<i class="fas fa-chart-pie"></i>
+<h3>Analytics</h3>
+<p>
+Visualize spending patterns using
+interactive charts and reports.
+</p>
+</div>
+
+<div class="card">
+<i class="fas fa-piggy-bank"></i>
+<h3>Savings Goals</h3>
+<p>
+Plan budgets and achieve financial
+targets faster.
+</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2 class="section-title">
+Mission & <span>Vision</span>
+</h2>
+
+<div class="mission">
+
+<div class="box">
+<h2>🎯 Mission</h2>
+<br>
+<p>
+To empower individuals with intuitive
+financial tools that simplify expense
+tracking and budgeting.
+</p>
+</div>
+
+<div class="box">
+<h2>🚀 Vision</h2>
+<br>
+<p>
+To become a trusted personal finance
+management platform for users worldwide.
+</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2 class="section-title">
+Project <span>Statistics</span>
+</h2>
+
+<div class="stats">
+
+<div class="stat-card">
+<h1>10K+</h1>
+<p>Active Users</p>
+</div>
+
+<div class="stat-card">
+<h1>1M+</h1>
+<p>Transactions</p>
+</div>
+
+<div class="stat-card">
+<h1>98%</h1>
+<p>User Satisfaction</p>
+</div>
+
+<div class="stat-card">
+<h1>24/7</h1>
+<p>Support</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2 class="section-title">
+Meet The <span>Team</span>
+</h2>
+
+<div class="team">
+
+<div class="member">
+
+<h3>Sakshi</h3>
+<p>Project Developer</p>
+</div>
+
+
+</div>
+
+</section>
+
+<footer>
+© 2026 Expense Tracker Pro | About Us
+</footer>
+
 </body>
 </html>
+```
+

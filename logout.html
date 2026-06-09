@@ -1,54 +1,259 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Logout - Expense Tracker</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Logout - Expense Tracker Pro</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:linear-gradient(
+135deg,
+#0f172a,
+#1e1b4b,
+#312e81,
+#2563eb
+);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+overflow:hidden;
+}
+
+/* CARD */
+
+.logout-card{
+width:100%;
+max-width:650px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(20px);
+padding:50px;
+border-radius:25px;
+text-align:center;
+box-shadow:0 10px 40px rgba(0,0,0,.4);
+color:white;
+}
+
+/* SUCCESS ICON */
+
+.success{
+width:120px;
+height:120px;
+margin:auto;
+border-radius:50%;
+background:rgba(34,197,94,.15);
+display:flex;
+justify-content:center;
+align-items:center;
+animation:pulse 2s infinite;
+}
+
+.success i{
+font-size:60px;
+color:#22c55e;
+}
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.08);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+/* CONTENT */
+
+.logout-card h1{
+margin-top:25px;
+font-size:42px;
+}
+
+.logout-card p{
+margin-top:15px;
+line-height:1.8;
+color:#cbd5e1;
+}
+
+/* TIMER */
+
+.timer{
+margin-top:20px;
+font-size:20px;
+font-weight:600;
+color:#38bdf8;
+}
+
+/* BUTTONS */
+
+.buttons{
+display:flex;
+justify-content:center;
+gap:15px;
+margin-top:35px;
+flex-wrap:wrap;
+}
+
+.btn{
+padding:14px 28px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-size:15px;
+font-weight:500;
+transition:.3s;
+text-decoration:none;
+}
+
+.login-btn{
+background:#38bdf8;
+color:white;
+}
+
+.login-btn:hover{
+background:#0ea5e9;
+}
+
+.home-btn{
+background:white;
+color:#111827;
+}
+
+.home-btn:hover{
+transform:translateY(-3px);
+}
+
+/* FOOTER */
+
+.footer{
+margin-top:30px;
+font-size:14px;
+color:#94a3b8;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.logout-card{
+padding:35px 20px;
+}
+
+.logout-card h1{
+font-size:30px;
+}
+
+.success{
+width:100px;
+height:100px;
+}
+
+.success i{
+font-size:50px;
+}
+
+}
+
+</style>
 </head>
+
 <body>
-  <header class="site-header">
-    <nav class="nav-shell" aria-label="Primary navigation">
-      <a class="brand" href="index.html">Expense Tracker</a>
-      <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="login.html">Login</a>
-        <a href="graph.html">Graph</a>
-        <a class="active" href="logout.html">Logout</a>
-      </div>
-    </nav>
-  </header>
 
-  <main class="app-shell logout-shell">
-    <section class="logout-panel" id="logout-page" aria-labelledby="logout-title">
-      <p class="eyebrow">Session closed</p>
-      <h1 id="logout-title">You have been logged out.</h1>
-      <p class="hero-copy">Your expense records are still saved on this device, so the tracker and graph will keep showing them.</p>
+<div class="logout-card">
 
-      <div class="logout-summary" aria-label="Saved expense records">
-        <article>
-          <span>Saved records</span>
-          <strong id="logout-record-count">0</strong>
-        </article>
-        <article>
-          <span>Saved total</span>
-          <strong id="logout-saved-total">$0.00</strong>
-        </article>
-      </div>
+<div class="success">
+<i class="fas fa-check"></i>
+</div>
 
-      <div class="logout-actions">
-        <a class="primary-link" href="index.html">Back to Tracker</a>
-        <a class="text-link" href="login.html">Login Again</a>
-      </div>
-    </section>
-  </main>
+<h1>Logged Out Successfully</h1>
 
-  <footer class="site-footer">
-    <span>&copy; 2026 Expense Tracker App</span>
-  </footer>
+<p>
+Thank you for using Expense Tracker Pro.
+Your session has been securely ended.
+We hope to see you again soon.
+</p>
 
-  <script src="script.js"></script>
+<div class="timer">
+Redirecting to Login in
+<span id="countdown">5</span>
+seconds...
+</div>
+
+<div class="buttons">
+
+<a href="login.html" class="btn login-btn">
+<i class="fas fa-sign-in-alt"></i>
+ Login Again
+</a>
+
+<a href="index.html" class="btn home-btn">
+<i class="fas fa-home"></i>
+ Dashboard
+</a>
+
+</div>
+
+<div class="footer">
+© 2026 Expense Tracker Pro | Secure Logout
+</div>
+
+</div>
+
+<script>
+
+let seconds = 5;
+
+let timer =
+document.getElementById("countdown");
+
+let interval =
+setInterval(function(){
+
+seconds--;
+
+timer.innerText = seconds;
+
+if(seconds <= 0){
+
+clearInterval(interval);
+
+/* Redirect to login page */
+
+window.location.href =
+"login.html";
+
+}
+
+},1000);
+
+</script>
+
 </body>
 </html>
+```
+

@@ -1,169 +1,713 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expense Tracker</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Expense Tracker Pro Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+:root{
+--primary:#38bdf8;
+--secondary:#1e293b;
+--glass:rgba(255,255,255,.08);
+--text:#fff;
+}
+
+body{
+background:linear-gradient(
+-45deg,
+#0f172a,
+#1e1b4b,
+#2563eb,
+#312e81
+);
+background-size:400% 400%;
+animation:gradientBG 12s ease infinite;
+color:white;
+min-height:100vh;
+overflow-x:hidden;
+}
+
+@keyframes gradientBG{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* SIDEBAR */
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+width:260px;
+height:100%;
+background:rgba(0,0,0,.25);
+backdrop-filter:blur(20px);
+padding:25px;
+z-index:100;
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+color:#38bdf8;
+margin-bottom:40px;
+}
+
+.sidebar ul{
+list-style:none;
+}
+
+.sidebar ul li{
+margin:15px 0;
+}
+
+.sidebar ul li a{
+display:flex;
+align-items:center;
+gap:12px;
+text-decoration:none;
+color:white;
+padding:14px;
+border-radius:12px;
+transition:.3s;
+}
+
+.sidebar ul li a:hover{
+background:rgba(255,255,255,.1);
+}
+
+.main{
+margin-left:280px;
+padding:30px;
+}
+
+/* TOP BAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.profile{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.profile img{
+width:50px;
+height:50px;
+border-radius:50%;
+}
+
+.theme-btn{
+background:var(--glass);
+border:none;
+padding:12px 18px;
+color:white;
+border-radius:12px;
+cursor:pointer;
+}
+
+/* HERO */
+
+.hero{
+background:var(--glass);
+backdrop-filter:blur(20px);
+padding:35px;
+border-radius:25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.hero h1{
+font-size:42px;
+}
+
+.hero span{
+color:#38bdf8;
+}
+
+.hero img{
+width:250px;
+}
+
+/* CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:30px;
+}
+
+.card{
+background:var(--glass);
+backdrop-filter:blur(20px);
+padding:25px;
+border-radius:20px;
+transition:.4s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.card i{
+font-size:35px;
+color:#38bdf8;
+margin-bottom:10px;
+}
+
+.card h2{
+margin-top:10px;
+}
+
+/* GRID */
+
+.dashboard-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+margin-bottom:30px;
+}
+
+.panel{
+background:var(--glass);
+padding:25px;
+border-radius:20px;
+backdrop-filter:blur(20px);
+}
+
+.panel h3{
+margin-bottom:20px;
+}
+
+/* FORM */
+
+input,
+select{
+width:100%;
+padding:14px;
+margin:10px 0;
+border:none;
+outline:none;
+border-radius:10px;
+}
+
+.btn{
+width:100%;
+padding:14px;
+background:#38bdf8;
+border:none;
+border-radius:10px;
+color:white;
+cursor:pointer;
+}
+
+/* TABLE */
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px;
+text-align:left;
+}
+
+th{
+background:rgba(255,255,255,.1);
+}
+
+/* CHARTS */
+
+.charts{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+margin-bottom:30px;
+}
+
+/* INSIGHTS */
+
+.insights{
+background:var(--glass);
+padding:25px;
+border-radius:20px;
+}
+
+.insight-box{
+margin-top:15px;
+padding:15px;
+background:rgba(255,255,255,.05);
+border-radius:12px;
+}
+
+/* FAB */
+
+.fab{
+position:fixed;
+right:25px;
+bottom:25px;
+width:60px;
+height:60px;
+background:#38bdf8;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:28px;
+cursor:pointer;
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+/* LIGHT MODE */
+
+.light{
+background:#f1f5f9;
+color:#111827;
+}
+
+.light .sidebar{
+background:white;
+}
+
+.light .card,
+.light .panel,
+.light .hero,
+.light .insights{
+background:white;
+color:#111827;
+}
+
+/* MOBILE */
+
+@media(max-width:1000px){
+
+.sidebar{
+width:100%;
+height:auto;
+position:relative;
+}
+
+.main{
+margin-left:0;
+}
+
+.hero{
+flex-direction:column;
+text-align:center;
+}
+
+.dashboard-grid,
+.charts{
+grid-template-columns:1fr;
+}
+
+.hero img{
+margin-top:20px;
+}
+
+}
+
+</style>
 </head>
+
 <body>
-  <header class="site-header">
-    <nav class="nav-shell" aria-label="Primary navigation">
-      <a class="brand" href="index.html">Expense Tracker</a>
-      <div class="nav-links">
-        <a class="active" href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="login.html">Login</a>
-        <a href="graph.html">Graph</a>
-        <a href="logout.html">Logout</a>
-      </div>
-    </nav>
-  </header>
 
-  <main class="app-shell">
-    <section class="hero-panel" aria-labelledby="page-title">
-      <div>
-        <p class="eyebrow">Personal spending dashboard</p>
-        <h1 id="page-title">A cleaner way to watch every rupee.</h1>
-        <p class="hero-copy">Log purchases, scan recent records, and see your spending story at a glance.</p>
-      </div>
-      <div class="hero-stack" aria-live="polite">
-        <div class="hero-stat">
-          <span>Total spent</span>
-          <strong id="total-spent">$0.00</strong>
-        </div>
-        <a class="hero-link" href="graph.html">Open Graph</a>
-      </div>
-    </section>
+<div class="sidebar">
 
-    <section class="summary-grid" aria-label="Expense summary">
-      <article class="summary-card" data-accent="teal">
-        <span>Records</span>
-        <strong id="expense-count">0</strong>
-      </article>
-      <article class="summary-card" data-accent="blue">
-        <span>Top category</span>
-        <strong id="top-category">None</strong>
-      </article>
-      <article class="summary-card" data-accent="amber">
-        <span>Today</span>
-        <strong id="today-total">$0.00</strong>
-      </article>
-      <article class="summary-card" data-accent="rose">
-        <span>This month</span>
-        <strong id="month-total">$0.00</strong>
-      </article>
-    </section>
+<div class="logo">
+💰 Expense Tracker Pro
+</div>
 
-    <section class="content-grid">
-      <form class="expense-form" id="expense-form">
-        <div class="section-heading">
-          <p class="eyebrow">Quick entry</p>
-          <h2 id="expense-form-title">Add Expense</h2>
-        </div>
+<ul>
 
-        <label for="description">Description</label>
-        <input type="text" id="description" name="description" placeholder="Groceries, bus ticket, electricity bill" autocomplete="off" required>
+<li>
+<a href="#">
+<i class="fas fa-chart-pie"></i>
+Dashboard
+</a>
+</li>
 
-        <label for="amount">Amount</label>
-        <input type="text" id="amount" name="amount" placeholder="25.99" inputmode="decimal" required>
+<li>
+<a href="graph.html">
+<i class="fas fa-chart-line"></i>
+Analytics
+</a>
+</li>
 
-        <label for="category">Category</label>
-        <select id="category" name="category" required>
-          <option value="">Select category</option>
-          <option value="Food">Food</option>
-          <option value="Transport">Transport</option>
-          <option value="Bills">Bills</option>
-          <option value="Shopping">Shopping</option>
-          <option value="Entertainment">Entertainment</option>
-          <option value="Health">Health</option>
-          <option value="Others">Others</option>
-        </select>
+<li>
+<a href="about.html">
+<i class="fas fa-info-circle"></i>
+About
+</a>
+</li>
 
-        <label for="date">Date</label>
-        <input type="date" id="date" name="date" required>
+<li>
+<a href="contact.html">
+<i class="fas fa-envelope"></i>
+Contact
+</a>
+</li>
 
-        <label for="currency">Currency</label>
-        <select id="currency" name="currency">
-          <option value="INR">Indian Rupee (₹)</option>
-          <option value="USD">US Dollar ($)</option>
-          <option value="EUR">Euro (€)</option>
-          <option value="GBP">British Pound (£)</option>
-        </select>
+<li>
+<a href="login.html">
+<i class="fas fa-sign-in-alt"></i>
+Login
+</a>
+</li>
+<li>
+    <a href="#" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+    </a>
+</li>
 
-        <div class="button-row">
-          <button class="primary-btn" id="submit-expense" type="submit">Add Expense</button>
-          <button class="danger-btn" id="clear-all" type="button">Clear All</button>
-        </div>
-        <button class="ghost-btn" id="cancel-edit" type="button" hidden>Cancel Edit</button>
-      </form>
+</ul>
 
-      <section class="records-panel" aria-labelledby="records-title">
-        <div class="section-heading records-heading">
-          <div>
-            <p class="eyebrow">Saved records</p>
-            <h2 id="records-title">Expense Records</h2>
-          </div>
-          <a class="text-link" href="graph.html">View Graph</a>
-        </div>
+</div>
 
-        <div class="filter-grid" aria-label="Filter expense records">
-          <label for="filter-search">
-            Search
-            <input type="search" id="filter-search" placeholder="Search description">
-          </label>
-          <label for="filter-category">
-            Category
-            <select id="filter-category">
-              <option value="">All categories</option>
-              <option value="Food">Food</option>
-              <option value="Transport">Transport</option>
-              <option value="Bills">Bills</option>
-              <option value="Shopping">Shopping</option>
-              <option value="Entertainment">Entertainment</option>
-              <option value="Health">Health</option>
-              <option value="Others">Others</option>
-            </select>
-          </label>
-          <label for="filter-from">
-            From
-            <input type="date" id="filter-from">
-          </label>
-          <label for="filter-to">
-            To
-            <input type="date" id="filter-to">
-          </label>
-          <button class="ghost-btn" id="reset-filters" type="button">Reset</button>
-        </div>
+<div class="main">
 
-        <div class="empty-state" id="empty-state">
-          <strong id="empty-title">No expenses yet</strong>
-          <p id="empty-copy">Add your first expense to see records and update the graph.</p>
-        </div>
+<div class="topbar">
 
-        <div class="records-table-wrap" id="records-table-wrap" hidden>
-          <table class="records-table">
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="expenses-list"></tbody>
-          </table>
-        </div>
-      </section>
-    </section>
-  </main>
+<div class="profile">
 
-  <footer class="site-footer">
-    <span>&copy; 2026 Expense Tracker App</span>
-  </footer>
 
-  <script src="script.js"></script>
+
+<div>
+<h3>Welcome Back</h3>
+<p>Sakshi 👋</p>
+</div>
+
+</div>
+
+<button class="theme-btn" onclick="toggleTheme()">
+🌙 Theme
+</button>
+
+</div>
+
+<div class="hero">
+
+<div>
+<h1>
+Track Every <span>Rupee</span>
+Build Every Dream
+</h1>
+
+<p>
+Smart budgeting and expense tracking
+for a better financial future.
+</p>
+</div>
+
+<img src="https://cdn-icons-png.flaticon.com/512/2489/2489756.png">
+
+</div>
+
+<div class="cards">
+
+<div class="card">
+<i class="fas fa-wallet"></i>
+<h4>Total Income</h4>
+<h2>₹80,000</h2>
+</div>
+
+<div class="card">
+<i class="fas fa-money-bill-wave"></i>
+<h4>Total Expense</h4>
+<h2>₹35,000</h2>
+</div>
+
+<div class="card">
+<i class="fas fa-piggy-bank"></i>
+<h4>Savings</h4>
+<h2>₹45,000</h2>
+</div>
+
+<div class="card">
+<i class="fas fa-bullseye"></i>
+<h4>Budget Goal</h4>
+<h2>70%</h2>
+</div>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="panel">
+
+<h3>Add Expense</h3>
+
+<input type="text" id="expenseName" placeholder="Description">
+
+<input type="number" id="expenseAmount" placeholder="Amount">
+
+<select id="expenseCategory">
+<option>Food</option>
+<option>Transport</option>
+<option>Shopping</option>
+<option>Bills</option>
+<option>Entertainment</option>
+</select>
+
+<button class="btn" onclick="addExpense()">
+Add Expense
+</button>
+
+</div>
+
+<div class="panel">
+
+<h3>Recent Transactions</h3>
+
+
+
+<table id="transactionTable">
+
+<tr>
+<th>Name</th>
+<th>Category</th>
+<th>Amount</th>
+<th>Action</th>
+</tr>
+
+</table>
+
+
+</div>
+
+</div>
+
+<div class="charts">
+
+<div class="panel">
+<canvas id="pieChart"></canvas>
+</div>
+
+<div class="panel">
+<canvas id="lineChart"></canvas>
+</div>
+
+</div>
+
+<div class="insights">
+
+<h3>Financial Insights AI</h3>
+
+<div class="insight-box">
+✅ Food spending increased by 12%
+this month.
+</div>
+
+<div class="insight-box">
+✅ Savings are ahead of target by 8%.
+</div>
+
+<div class="insight-box">
+⚠ Shopping expenses exceeded budget.
+</div>
+
+</div>
+
+</div>
+
+<div class="fab">
++
+</div>
+
+<script>
+
+new Chart(
+document.getElementById('pieChart'),
+{
+type:'doughnut',
+data:{
+labels:[
+'Food',
+'Bills',
+'Shopping',
+'Transport'
+],
+datasets:[{
+data:[25,30,20,25]
+}]
+}
+}
+);
+
+new Chart(
+document.getElementById('lineChart'),
+{
+type:'line',
+data:{
+labels:[
+'Jan','Feb','Mar','Apr','May','Jun'
+],
+datasets:[{
+label:'Expenses',
+data:[
+12000,
+15000,
+10000,
+18000,
+14000,
+20000
+]
+}]
+}
+}
+);
+
+function toggleTheme(){
+document.body.classList.toggle('light');
+}
+
+</script>
+<script>
+
+function logout(){
+
+    localStorage.removeItem("isLoggedIn");
+
+    window.location.href = "login.html";
+
+}
+
+</script>
+<script>
+
+let income = 80000;
+let expenses =
+JSON.parse(localStorage.getItem("expenses")) || [];
+
+function updateDashboard(){
+
+    let totalExpense = 0;
+
+    expenses.forEach(exp => {
+        totalExpense += Number(exp.amount);
+    });
+
+    document.getElementById("expenseCard").innerText =
+    "₹" + totalExpense.toLocaleString();
+
+    document.getElementById("savingsCard").innerText =
+    "₹" + (income-totalExpense).toLocaleString();
+}
+
+function renderTable(){
+
+    const table =
+    document.getElementById("transactionTable");
+
+    table.innerHTML = `
+    <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Action</th>
+    </tr>
+    `;
+
+    expenses.forEach((expense,index)=>{
+
+        table.innerHTML += `
+        <tr>
+            <td>${expense.name}</td>
+            <td>${expense.category}</td>
+            <td>₹${expense.amount}</td>
+            <td>
+                <button onclick="deleteExpense(${index})">
+                    Delete
+                </button>
+            </td>
+        </tr>
+        `;
+    });
+
+    updateDashboard();
+}
+
+function addExpense(){
+
+    const name =
+    document.getElementById("expenseName").value;
+
+    const amount =
+    document.getElementById("expenseAmount").value;
+
+    const category =
+    document.getElementById("expenseCategory").value;
+
+    if(name==="" || amount===""){
+
+        alert("Please fill all fields");
+        return;
+    }
+
+    expenses.push({
+        name,
+        amount,
+        category
+    });
+
+    localStorage.setItem(
+        "expenses",
+        JSON.stringify(expenses)
+    );
+
+    renderTable();
+
+    document.getElementById("expenseName").value="";
+    document.getElementById("expenseAmount").value="";
+}
+
+function deleteExpense(index){
+
+    expenses.splice(index,1);
+
+    localStorage.setItem(
+        "expenses",
+        JSON.stringify(expenses)
+    );
+
+    renderTable();
+}
+
+window.onload=function(){
+
+    renderTable();
+
+}
+
+</script>
 </body>
 </html>
+
