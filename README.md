@@ -1,4 +1,4 @@
-````md
+
 # Expense Tracker 💰
 
 A modern and responsive Expense Tracker Web Application built using HTML, CSS, and JavaScript. This project helps users manage daily expenses, track spending habits, and visualize expenses using graphs.
@@ -139,6 +139,4 @@ GitHub:
 
 This project is open-source and available under the MIT License.
 
-```
 
-```
