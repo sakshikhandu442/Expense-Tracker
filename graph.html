@@ -238,7 +238,7 @@ through interactive charts and reports.
 <div class="card">
 <i class="fas fa-wallet"></i>
 <h3>Total Expenses</h3>
-<h2>₹35,000</h2>
+<h2 id="totalExpense">₹0</h2>
 </div>
 
 <div class="card">
@@ -250,13 +250,13 @@ through interactive charts and reports.
 <div class="card">
 <i class="fas fa-piggy-bank"></i>
 <h3>Total Savings</h3>
-<h2>₹15,000</h2>
+<h2 id="totalSavings">₹0</h2>
 </div>
 
 <div class="card">
 <i class="fas fa-file-invoice-dollar"></i>
 <h3>Transactions</h3>
-<h2>120</h2>
+<h2 id="totalTransactions">0</h2>
 </div>
 
 </section>
@@ -293,81 +293,118 @@ through interactive charts and reports.
 
 <script>
 
+const expenses =
+JSON.parse(localStorage.getItem("expenses")) || [];
+
+/* SUMMARY */
+
+const totalExpense =
+expenses.reduce(
+    (sum, expense) =>
+    sum + Number(expense.amount),
+    0
+);
+
+const savings = 80000 - totalExpense;
+
+document.querySelectorAll(".card h2")[0].innerText =
+"₹" + totalExpense.toLocaleString();
+
+document.querySelectorAll(".card h2")[2].innerText =
+"₹" + savings.toLocaleString();
+
+document.querySelectorAll(".card h2")[3].innerText =
+expenses.length;
+
+/* CATEGORY DATA */
+
+const categories = {
+    Food:0,
+    Transport:0,
+    Shopping:0,
+    Bills:0,
+    Entertainment:0
+};
+
+expenses.forEach(expense => {
+
+    if(categories[expense.category] !== undefined){
+
+        categories[expense.category] +=
+        Number(expense.amount);
+
+    }
+
+});
+
 /* PIE CHART */
 
 new Chart(
-document.getElementById('pieChart'),
+document.getElementById("pieChart"),
 {
-type:'pie',
-data:{
-labels:[
-'Food',
-'Transport',
-'Shopping',
-'Bills',
-'Entertainment'
-],
-datasets:[{
-data:[25,15,20,25,15]
-}]
-}
+    type:"pie",
+    data:{
+        labels:Object.keys(categories),
+        datasets:[{
+            data:Object.values(categories),
+            backgroundColor:[
+                "#38bdf8",
+                "#22c55e",
+                "#f59e0b",
+                "#ef4444",
+                "#8b5cf6"
+            ]
+        }]
+    }
 }
 );
 
 /* BAR CHART */
 
 new Chart(
-document.getElementById('barChart'),
+document.getElementById("barChart"),
 {
-type:'bar',
-data:{
-labels:[
-'Jan',
-'Feb',
-'Mar',
-'Apr',
-'May',
-'Jun'
-],
-datasets:[{
-label:'Expenses',
-data:[
-12000,
-15000,
-18000,
-14000,
-22000,
-20000
-]
-}]
-}
+    type:"bar",
+    data:{
+        labels:Object.keys(categories),
+        datasets:[{
+            label:"Category Expenses",
+            data:Object.values(categories),
+            backgroundColor:[
+                "#38bdf8",
+                "#22c55e",
+                "#f59e0b",
+                "#ef4444",
+                "#8b5cf6"
+            ]
+        }]
+    }
 }
 );
 
 /* LINE CHART */
 
 new Chart(
-document.getElementById('lineChart'),
+document.getElementById("lineChart"),
 {
-type:'line',
-data:{
-labels:[
-'Week 1',
-'Week 2',
-'Week 3',
-'Week 4'
-],
-datasets:[{
-label:'Expense Trend',
-data:[
-5000,
-7000,
-6000,
-9000
-],
-fill:false
-}]
-}
+    type:"line",
+    data:{
+        labels:expenses.map(
+            (expense,index)=>
+            "Expense " + (index+1)
+        ),
+        datasets:[{
+            label:"Expense Trend",
+            data:expenses.map(
+                expense =>
+                Number(expense.amount)
+            ),
+            borderColor:"#38bdf8",
+            backgroundColor:"#38bdf8",
+            fill:false,
+            tension:0.4
+        }]
+    }
 }
 );
 
@@ -375,5 +412,5 @@ fill:false
 
 </body>
 </html>
-```
+
 

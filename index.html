@@ -382,7 +382,7 @@ Login
 </a>
 </li>
 <li>
-    <a href="#" onclick="logout()">
+    <a href="logout.html">
         <i class="fas fa-sign-out-alt"></i>
         Logout
     </a>
@@ -442,13 +442,13 @@ for a better financial future.
 <div class="card">
 <i class="fas fa-money-bill-wave"></i>
 <h4>Total Expense</h4>
-<h2>₹35,000</h2>
+<h2 id="expenseCard">₹0</h2>
 </div>
 
 <div class="card">
 <i class="fas fa-piggy-bank"></i>
 <h4>Savings</h4>
-<h2>₹45,000</h2>
+<h2 id="savingsCard">₹80,000</h2>
 </div>
 
 <div class="card">
@@ -544,82 +544,103 @@ this month.
 
 <script>
 
-new Chart(
-document.getElementById('pieChart'),
-{
-type:'doughnut',
-data:{
-labels:[
-'Food',
-'Bills',
-'Shopping',
-'Transport'
-],
-datasets:[{
-data:[25,30,20,25]
-}]
-}
-}
-);
-
-new Chart(
-document.getElementById('lineChart'),
-{
-type:'line',
-data:{
-labels:[
-'Jan','Feb','Mar','Apr','May','Jun'
-],
-datasets:[{
-label:'Expenses',
-data:[
-12000,
-15000,
-10000,
-18000,
-14000,
-20000
-]
-}]
-}
-}
-);
-
 function toggleTheme(){
 document.body.classList.toggle('light');
 }
 
-</script>
-<script>
+let pieChart;
+let lineChart;
 
-function logout(){
+function updateCharts(){
 
-    localStorage.removeItem("isLoggedIn");
+    const categories = {
+        Food:0,
+        Transport:0,
+        Shopping:0,
+        Bills:0,
+        Entertainment:0
+    };
 
-    window.location.href = "login.html";
+    expenses.forEach(exp=>{
 
+        categories[exp.category] += Number(exp.amount);
+
+    });
+
+    if(pieChart){
+        pieChart.destroy();
+    }
+
+    pieChart = new Chart(
+        document.getElementById("pieChart"),
+        {
+            type:"doughnut",
+            data:{
+                labels:Object.keys(categories),
+                datasets:[{
+                    data:Object.values(categories),
+                    backgroundColor:[
+                        "#38bdf8",
+                        "#22c55e",
+                        "#f59e0b",
+                        "#ef4444",
+                        "#8b5cf6"
+                    ]
+                }]
+            }
+        }
+    );
+
+    if(lineChart){
+        lineChart.destroy();
+    }
+
+    lineChart = new Chart(
+        document.getElementById("lineChart"),
+        {
+            type:"line",
+            data:{
+                labels:expenses.map(
+                    (expense,index)=>
+                    `Expense ${index+1}`
+                ),
+                datasets:[{
+                    label:"Expense Amount",
+                    data:expenses.map(
+                        expense=>Number(expense.amount)
+                    ),
+                    borderColor:"#38bdf8",
+                    backgroundColor:"#38bdf8",
+                    tension:0.4
+                }]
+            }
+        }
+    );
 }
 
 </script>
 <script>
 
 let income = 80000;
+
 let expenses =
 JSON.parse(localStorage.getItem("expenses")) || [];
 
 function updateDashboard(){
 
-    let totalExpense = 0;
-
-    expenses.forEach(exp => {
-        totalExpense += Number(exp.amount);
-    });
+    let totalExpense = expenses.reduce(
+        (sum,expense)=>
+        sum + Number(expense.amount),
+        0
+    );
 
     document.getElementById("expenseCard").innerText =
     "₹" + totalExpense.toLocaleString();
 
     document.getElementById("savingsCard").innerText =
     "₹" + (income-totalExpense).toLocaleString();
+
+    updateCharts();
 }
 
 function renderTable(){
@@ -644,7 +665,15 @@ function renderTable(){
             <td>${expense.category}</td>
             <td>₹${expense.amount}</td>
             <td>
-                <button onclick="deleteExpense(${index})">
+                <button
+                    onclick="deleteExpense(${index})"
+                    style="
+                    padding:8px 12px;
+                    border:none;
+                    border-radius:8px;
+                    background:#ef4444;
+                    color:white;
+                    cursor:pointer;">
                     Delete
                 </button>
             </td>
@@ -666,16 +695,16 @@ function addExpense(){
     const category =
     document.getElementById("expenseCategory").value;
 
-    if(name==="" || amount===""){
+    if(name === "" || amount === ""){
 
         alert("Please fill all fields");
         return;
     }
 
     expenses.push({
-        name,
-        amount,
-        category
+        name:name,
+        amount:Number(amount),
+        category:category
     });
 
     localStorage.setItem(
@@ -685,8 +714,8 @@ function addExpense(){
 
     renderTable();
 
-    document.getElementById("expenseName").value="";
-    document.getElementById("expenseAmount").value="";
+    document.getElementById("expenseName").value = "";
+    document.getElementById("expenseAmount").value = "";
 }
 
 function deleteExpense(index){
@@ -701,13 +730,14 @@ function deleteExpense(index){
     renderTable();
 }
 
-window.onload=function(){
+window.onload = function(){
 
     renderTable();
+    updateCharts();
 
-}
+};
 
 </script>
 </body>
-</html>
+</html> 
 
